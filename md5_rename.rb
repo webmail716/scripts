@@ -15,9 +15,15 @@
 
 # a list of deleteable files, files that can be deleted if they are the only ones in that folder (thereby making the folder deletable too)
 require 'digest/md5'
+require 'strategies/rename/*'
 
 class Md5Rename
-  def self.rename_files(folder)
+
+  def initialize(strategy)
+    @strategy = strategy
+  end
+
+  def rename_files(folder)
     raise "Missing param: folder" if folder.nil?
 
     puts "Processing #{folder}"
@@ -31,12 +37,16 @@ class Md5Rename
     end
   end
 
-  def self.rename_file(file)
+  def rename_file(file)
     if should_rename? file 
-      digest = Digest::MD5.new.hexdigest(File.read(file))
-      new_filename = File.join(File.dirname(file), digest + File.extname(file))
+      digest = calculate_md5 file 
+      new_filename = @strategy.new_name file, digest
       File.rename file, new_filename
     end
+  end
+
+  def self.calculate_md5(file)
+    digest = Digest::MD5.new.hexdigest(File.read(file))
   end
 
   def new_filename(file)
@@ -53,5 +63,6 @@ class Md5Rename
 end
 
 begin
-  Md5Rename.rename_files(ARGV[0])
+  strategy = Strategy::Rename::Md5NamingStrategy.new # rename files by replacing the full name with the md5
+  Md5Rename.rename_files(ARGV[0], strategy)
 end
