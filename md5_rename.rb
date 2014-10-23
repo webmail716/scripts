@@ -13,6 +13,7 @@
 # should have an md5_ignore.txt with a list of files that should not be digested
 # a strategy or other pattern for specific file types, so files like mp3 can be digested without the tag information ?
 
+# a list of deleteable files, files that can be deleted if they are the only ones in that folder (thereby making the folder deletable too)
 require 'digest/md5'
 
 class Md5Rename
