@@ -45,7 +45,8 @@ class Md5Rename
 
     Dir[folder + "/*"].each do |file|
       if File.directory? file
-        rename_files(File.expand_path(File.join(folder, file)))
+        rename_files file
+        Metadata.instance.persist #save yaml file after every folder is complete
       else
         @strategy.rename_file file 
       end

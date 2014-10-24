@@ -22,6 +22,10 @@ class BaseRenameStrategy
       puts "Renaming #{file} to #{new_filename}"
       File.rename file, new_filename
       #save the digest under the new name ?
+      metadata = Metadata.instance.get(file)
+      metadata[:filepath] = new_filename #update the filepath. everything else should stay the same
+      # Metadata.instance.file_renamed(old_filename, new_filename, metadata)
+      Metadata.instance.set(new_filename, metadata)
     end
   end
 
