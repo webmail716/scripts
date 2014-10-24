@@ -30,7 +30,8 @@
 # ruby tools or library to read jpeg header info ? any way to determine if file is valid or corrupt ? way to delete corrupt files ?
 
 # a list of deleteable files, files that can be deleted if they are the only ones in that folder (thereby making the folder deletable too)
-
+# a md5 utils type class, where you can ask for the md5 of a file by providing the filename/path, 
+#   or you can supply the md5 of a file along with the filename and it will store it (in memory and on disk in yaml in that folder)
 class Md5Rename
 
   def initialize(strategy)
