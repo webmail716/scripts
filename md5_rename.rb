@@ -1,4 +1,17 @@
 # TODO: Add options to:
+
+# Functionality:
+# Traverse folders:
+# => Remove empty files
+# => Check if files are valid or corrupt
+# => Rename files - use strategy pattern
+#       when renaming files, make sure breadcrumb file is updated with new filename and md5
+
+# => Generate breadcrumb files with filename, filesize, last modified, md5 
+#       if filesize and last modified is same then we can assume md5 is the same
+#       file format should be yml - with a top level grouping for files:
+
+
 # => prepend md5 digest to already existing filename
 # => append md5 digest to already existing filename
 # => overwrite existing filename with md5 digest
@@ -12,6 +25,9 @@
 # should have an interactive mode with a help menu that will allow the user to choose which group of duplicates to delete
 # should have an md5_ignore.txt with a list of files that should not be digested
 # a strategy or other pattern for specific file types, so files like mp3 can be digested without the tag information ?
+# should not calculate digest for files with 0 bytes
+# option to delete files with 0 bytes - maybe a cleaning script
+# ruby tools or library to read jpeg header info ? any way to determine if file is valid or corrupt ? way to delete corrupt files ?
 
 require 'digest/md5'
 
