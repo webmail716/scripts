@@ -30,8 +30,6 @@
 # ruby tools or library to read jpeg header info ? any way to determine if file is valid or corrupt ? way to delete corrupt files ?
 
 # a list of deleteable files, files that can be deleted if they are the only ones in that folder (thereby making the folder deletable too)
-require 'digest/md5'
-require 'strategies/rename/*'
 
 class Md5Rename
 
@@ -48,37 +46,8 @@ class Md5Rename
       if File.directory? file
         rename_files(File.expand_path(File.join(folder, file)))
       else
-        rename_file file 
+        @strategy.rename_file file 
       end
     end
   end
-
-  def rename_file(file)
-    if should_rename? file 
-      digest = calculate_md5 file 
-      new_filename = @strategy.new_name file, digest
-      File.rename file, new_filename
-    end
-  end
-
-  def self.calculate_md5(file)
-    digest = Digest::MD5.new.hexdigest(File.read(file))
-  end
-
-  def new_filename(file)
-
-  end
-  
-  def self.should_rename?(file)
-    extensions.include?(File.extname(file))
-  end
-
-  def self.extensions
-    [".jpg"]
-  end
-end
-
-begin
-  strategy = Strategy::Rename::Md5NamingStrategy.new # rename files by replacing the full name with the md5
-  Md5Rename.rename_files(ARGV[0], strategy)
 end
